@@ -29,7 +29,7 @@ struct StatMiniCard: View {
             }
             Text(value)
                 .font(.system(size: 22, weight: .bold))
-                .foregroundColor(Color("Text"))
+                .foregroundColor(Color("Text Primary"))
                 .minimumScaleFactor(0.6)
                 .lineLimit(1)
             Text(label)

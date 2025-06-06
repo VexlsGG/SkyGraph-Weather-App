@@ -16,6 +16,7 @@ struct WeatherHeader: View {
     let tempTrend = [65, 66, 67, 66, 66, 64, 63, 62]
 
     @State private var pressedPill: String? = nil
+    @Binding var showLocations: Bool
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
@@ -26,7 +27,9 @@ struct WeatherHeader: View {
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 50, height: 50)
                     Spacer()
-                    Button(action: { }) {
+                    Button(action: {
+                        showLocations = true
+                    }) {
                         Image(systemName: "location.circle.fill")
                             .font(.system(size: 28, weight: .bold))
                             .foregroundColor(Color("Text Secondary"))
@@ -77,7 +80,7 @@ struct WeatherHeader: View {
                         colors: [Color("Graph Line 2"), Color("Graph Line 1")],
                         startPoint: .leading, endPoint: .trailing),
                     isPressed: pressedPill == "event"
-                ) { pressedPill = $0 ? "event" : nil }
+                ) { pressed in pressedPill = pressed ? "event" : nil }
 
                 PillButton(
                     label: {
@@ -91,7 +94,7 @@ struct WeatherHeader: View {
                     background: Color.green.opacity(0.15),
                     foreground: .green,
                     isPressed: pressedPill == "confidence"
-                ) { pressedPill = $0 ? "confidence" : nil }
+                ) { pressed in pressedPill = pressed ? "confidence" : nil }
                 Spacer()
             }
 
@@ -117,7 +120,7 @@ struct WeatherHeader: View {
                     },
                     background: Color("Text Secondary").opacity(0.19),
                     isPressed: pressedPill == "feelslike"
-                ) { pressedPill = $0 ? "feelslike" : nil }
+                ) { pressed in pressedPill = pressed ? "feelslike" : nil }
             }
             .padding(.vertical, 2)
 
@@ -240,6 +243,6 @@ struct SparklineView: View {
 }
 
 #Preview {
-    WeatherHeader()
+    WeatherHeader(showLocations: .constant(false))
         .preferredColorScheme(.dark)
 }
