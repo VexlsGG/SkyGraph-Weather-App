@@ -1,0 +1,79 @@
+# Xcode
+.DS_Store
+build/
+DerivedData/
+xcuserdata/
+*.xcuserstate
+*.xcscmblueprint
+*.xccheckout
+*.moved-aside
+*.xcuserdatad
+
+# SwiftPM
+/.swiftpm/xcode/package.xcworkspace/
+.swiftpm/
+Package.resolved
+
+# CocoaPods
+Pods/
+Podfile.lock
+
+# Carthage
+Carthage/Build/
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/
+fastlane/test_output/
+
+# Archives
+*.xcarchive
+*.ipa
+
+# Xcode project workspace/metadata
+*.xcworkspace
+*.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings
+
+# Xcode Automatically Generated Files
+*.orig
+
+# User-specific files
+*.hmap
+*.swp
+*.swm
+*.swo
+*.orig
+*~
+
+# Crashlytics
+.crashlytics/
+
+# SPM dependencies (if you use Swift Package Manager)
+SourcePackages/
+Package.pins
+
+# Lottie cache
+LottieCache/
+
+# Preview device logs
+*.device_log
+
+# Playgrounds
+timeline.xctimeline
+playground.xcworkspace
+
+# Local Xcode previews cache
+*.xcpreview
+
+# SwiftUI previews
+*.preview-thumbnails
+
+# Env files, secrets, personal config
+.env
+
+# macOS Finder and system files
+Icon?
+._*
+.Spotlight-V100
+.Trashes
