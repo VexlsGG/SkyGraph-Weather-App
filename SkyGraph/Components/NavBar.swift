@@ -1,7 +1,7 @@
 import SwiftUI
 
 enum NavBarTab: Int, CaseIterable {
-    case home, forecast, maps, ai, settings
+    case home, forecast, maps, ai, trash, settings
 
     var iconName: String {
         switch self {
@@ -9,6 +9,7 @@ enum NavBarTab: Int, CaseIterable {
         case .forecast: return "chart.line.uptrend.xyaxis"
         case .maps: return "map"
         case .ai: return "bubble.left.and.bubble.right"
+        case .trash: return "trash"
         case .settings: return "gearshape"
         }
     }
@@ -18,6 +19,7 @@ enum NavBarTab: Int, CaseIterable {
         case .forecast: return "Forecast"
         case .maps: return "Maps"
         case .ai: return "AI"
+        case .trash: return "Trash"
         case .settings: return "Settings"
         }
     }
