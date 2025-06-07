@@ -32,9 +32,12 @@ private let defaultLocations: [LocationDisplay] = [
     )
 ]
 
+private enum WeatherAnimationStyle: CaseIterable {
+    case wind, lightning, tornado
+}
+
 struct LocationsView: View {
     @AppStorage("savedLocations") private var savedLocationsData: Data = Data()
-    @AppStorage("trashedLocations") private var trashedLocationsData: Data = Data()
     @State private var locations: [LocationDisplay] = []
     @State private var showingAddLocation = false
     @State private var selectedLocationID: UUID? = nil
@@ -42,6 +45,12 @@ struct LocationsView: View {
     @State private var isEditMode = false
     @State private var showDeleteAlert = false
     @State private var locationToDelete: LocationDisplay?
+    @State private var deletedLocation: (item: LocationDisplay, index: Int)?
+    @State private var showUndo = false
+    @State private var undoProgress: Double = 1.0
+    @State private var weatherMessage: String = ""
+    @State private var undoTimer: Timer?
+    @State private var removalStyle: [UUID: WeatherAnimationStyle] = [:]
     @Environment(\.presentationMode) var presentationMode
 
     var body: some View {
@@ -103,91 +112,8 @@ struct LocationsView: View {
                 .padding(.top, 12)
                 List {
                     ForEach(locations) { location in
-                        HStack(alignment: .top, spacing: 0) {
-                            if isEditMode {
-                                Image(systemName: "line.3.horizontal")
-                                    .foregroundColor(Color("Text Secondary"))
-                                    .opacity(0.25)
-                                    .padding(.top, 24)
-                                    .padding(.trailing, 10)
-                            }
-                            VStack(alignment: .leading, spacing: 0) {
-                                LocationWeatherCard(
-                                    location: location.model,
-                                    isActive: location.id == (selectedLocationID ?? locations.first?.id),
-                                    isUserLocation: location.isUserLocation,
-                                    alertTitle: location.alertTitle,
-                                    trend: .neutral,
-                                    animateAlert: location.alertTitle != nil,
-                                    expand: !isEditMode && expandedLocationID == location.id,
-                                    cardStyle: location.cardStyle,
-                                    onExpand: {
-                                        if !isEditMode {
-                                            let gen = UIImpactFeedbackGenerator(style: .medium)
-                                            gen.impactOccurred()
-                                            withAnimation(.spring()) {
-                                                expandedLocationID = expandedLocationID == location.id ? nil : location.id
-                                                selectedLocationID = location.id
-                                            }
-                                        }
-                                    },
-                                    importantText: importantWeatherText(for: location.model)
-                                )
-                                if isEditMode {
-                                    HStack(spacing: 8) {
-                                        Text("Style:")
-                                            .foregroundColor(Color("Text Secondary"))
-                                        Picker("", selection: Binding(
-                                            get: { location.cardStyle },
-                                            set: { newValue in
-                                                if let idx = locations.firstIndex(where: { $0.id == location.id }) {
-                                                    locations[idx].cardStyle = newValue
-                                                }
-                                            }
-                                        )) {
-                                            Text("Glass").tag(LocationWeatherCard.CardStyle.glass)
-                                            Text("Neon").tag(LocationWeatherCard.CardStyle.neon)
-                                            Text("Minimal").tag(LocationWeatherCard.CardStyle.minimal)
-                                        }
-                                        .pickerStyle(.segmented)
-                                        .frame(width: 230)
-                                    }
-                                    .padding(.horizontal, 12)
-                                    .padding(.top, 8)
-                                }
-                            }
-                        }
-                        .onTapGesture {
-                            if !isEditMode {
-                                let gen = UIImpactFeedbackGenerator(style: .light)
-                                gen.impactOccurred()
-                                withAnimation(.spring()) {
-                                    expandedLocationID = expandedLocationID == location.id ? nil : location.id
-                                    selectedLocationID = location.id
-                                }
-                            }
-                        }
-                        .listRowBackground(Color.clear)
-                        .swipeActions(edge: .leading, allowsFullSwipe: !isEditMode) {
-                            Button {
-                                if let idx = locations.firstIndex(where: { $0.id == location.id }) {
-                                    for j in locations.indices {
-                                        locations[j].isUserLocation = (j == idx)
-                                    }
-                                }
-                            } label: {
-                                Label("Set as Home", systemImage: "house.fill")
-                            }
-                            .tint(Color("Graph Line 1"))
-                        }
-                        .swipeActions(edge: .trailing, allowsFullSwipe: !isEditMode) {
-                            Button(role: .destructive) {
-                                locationToDelete = location
-                                showDeleteAlert = true
-                            } label: {
-                                Image(systemName: "trash")
-                            }
-                        }
+                        rowView(for: location)
+                            .transition(transition(for: location.id))
                     }
                     .onMove { from, to in
                         if isEditMode {
@@ -199,6 +125,7 @@ struct LocationsView: View {
                     .listRowSeparator(.hidden)
                 }
                 .listStyle(.plain)
+                .animation(.easeInOut, value: locations)
                 .environment(\.editMode, .constant(isEditMode ? EditMode.active : EditMode.inactive))
                 .padding(.top, 4)
             }
@@ -208,15 +135,26 @@ struct LocationsView: View {
                 }
             }
         }
-        .alert("Delete this location?", isPresented: $showDeleteAlert, presenting: locationToDelete) { loc in
-            Button("Delete", role: .destructive) {
-                moveToTrash(loc)
-                locations.removeAll(where: { $0.id == loc.id })
+        .overlay(
+            Group {
+                if let toDelete = locationToDelete, showDeleteAlert {
+                    DeleteConfirmDialog(location: toDelete) { confirmed in
+                        if confirmed { performDelete(toDelete) }
+                        withAnimation { showDeleteAlert = false; locationToDelete = nil }
+                    }
+                    .transition(.scale.combined(with: .opacity))
+                }
             }
-            Button("Cancel", role: .cancel) { }
-        } message: { loc in
-            Text("Are you sure you want to delete \(loc.model.city)?")
-        }
+        )
+        .overlay(
+            Group {
+                if showUndo, let deleted = deletedLocation {
+                    UndoSnackbarView(message: weatherMessage, progress: undoProgress, undo: undoDelete, preview: deleted.item)
+                        .padding(.bottom, 30)
+                        .transition(.move(edge: .bottom).combined(with: .opacity))
+                }
+            }, alignment: .bottom
+        )
         .background(
             LinearGradient(
                 colors: [Color("Background"), Color("Graph Line 2").opacity(0.13)],
@@ -245,18 +183,6 @@ struct LocationsView: View {
         }
     }
 
-    private func moveToTrash(_ loc: LocationDisplay) {
-        var current = loadTrashed()
-        current.append(TrashedLocation(location: loc, deletedAt: Date()))
-        if let encoded = try? JSONEncoder().encode(current) {
-            trashedLocationsData = encoded
-        }
-    }
-
-    private func loadTrashed() -> [TrashedLocation] {
-        (try? JSONDecoder().decode([TrashedLocation].self, from: trashedLocationsData)) ?? []
-    }
-
     func importantWeatherText(for model: LocationModel) -> String {
         if model.condition.lowercased().contains("thunderstorm") {
             return "Severe Thunderstorm Risk: High"
@@ -275,4 +201,262 @@ struct LocationsView: View {
 
 #Preview {
     LocationsView()
+}
+
+// MARK: - Delete & Undo Helpers
+
+private extension LocationsView {
+    func performDelete(_ loc: LocationDisplay) {
+        guard let index = locations.firstIndex(where: { $0.id == loc.id }) else { return }
+        let style = WeatherAnimationStyle.allCases.randomElement() ?? .wind
+        removalStyle[loc.id] = style
+        let generator = UIImpactFeedbackGenerator(style: .rigid)
+        generator.impactOccurred()
+        withAnimation(.easeInOut) {
+            deletedLocation = (loc, index)
+            locations.remove(at: index)
+        }
+        weatherMessage = message(for: loc)
+        startUndoTimer()
+    }
+
+    func startUndoTimer() {
+        showUndo = true
+        undoProgress = 1.0
+        undoTimer?.invalidate()
+        undoTimer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { timer in
+            undoProgress -= 0.05 / 5
+            if undoProgress <= 0 {
+                timer.invalidate()
+                finalizeDelete()
+            }
+        }
+    }
+
+    func finalizeDelete() {
+        withAnimation { showUndo = false }
+        deletedLocation = nil
+        undoTimer?.invalidate(); undoTimer = nil
+    }
+
+    func undoDelete() {
+        guard let deleted = deletedLocation else { return }
+        let generator = UIImpactFeedbackGenerator(style: .light)
+        generator.impactOccurred()
+        withAnimation(.spring()) {
+            locations.insert(deleted.item, at: deleted.index)
+        }
+        finalizeDelete()
+    }
+
+    func message(for loc: LocationDisplay) -> String {
+        [
+            "\(loc.model.city) just blew away!",
+            "That location's in the cloud now... literally.",
+            "\(loc.model.city) was whisked away by the wind."].randomElement() ?? "Location deleted"
+    }
+
+    @ViewBuilder
+    func rowView(for location: LocationDisplay) -> some View {
+        HStack(alignment: .top, spacing: 0) {
+            if isEditMode {
+                Image(systemName: "line.3.horizontal")
+                    .foregroundColor(Color("Text Secondary"))
+                    .opacity(0.25)
+                    .padding(.top, 24)
+                    .padding(.trailing, 10)
+            }
+            VStack(alignment: .leading, spacing: 0) {
+                LocationWeatherCard(
+                    location: location.model,
+                    isActive: location.id == (selectedLocationID ?? locations.first?.id),
+                    isUserLocation: location.isUserLocation,
+                    alertTitle: location.alertTitle,
+                    trend: .neutral,
+                    animateAlert: location.alertTitle != nil,
+                    expand: !isEditMode && expandedLocationID == location.id,
+                    cardStyle: location.cardStyle,
+                    onExpand: {
+                        if !isEditMode {
+                            let gen = UIImpactFeedbackGenerator(style: .medium)
+                            gen.impactOccurred()
+                            withAnimation(.spring()) {
+                                expandedLocationID = expandedLocationID == location.id ? nil : location.id
+                                selectedLocationID = location.id
+                            }
+                        }
+                    },
+                    importantText: importantWeatherText(for: location.model)
+                )
+                if isEditMode {
+                    HStack(spacing: 8) {
+                        Text("Style:")
+                            .foregroundColor(Color("Text Secondary"))
+                        Picker("", selection: Binding(
+                            get: { location.cardStyle },
+                            set: { newValue in
+                                if let idx = locations.firstIndex(where: { $0.id == location.id }) {
+                                    locations[idx].cardStyle = newValue
+                                }
+                            }
+                        )) {
+                            Text("Glass").tag(LocationWeatherCard.CardStyle.glass)
+                            Text("Neon").tag(LocationWeatherCard.CardStyle.neon)
+                            Text("Minimal").tag(LocationWeatherCard.CardStyle.minimal)
+                        }
+                        .pickerStyle(.segmented)
+                        .frame(width: 230)
+                    }
+                    .padding(.horizontal, 12)
+                    .padding(.top, 8)
+                }
+            }
+        }
+        .onTapGesture {
+            if !isEditMode {
+                let gen = UIImpactFeedbackGenerator(style: .light)
+                gen.impactOccurred()
+                withAnimation(.spring()) {
+                    expandedLocationID = expandedLocationID == location.id ? nil : location.id
+                    selectedLocationID = location.id
+                }
+            }
+        }
+        .listRowBackground(Color.clear)
+        .swipeActions(edge: .leading, allowsFullSwipe: !isEditMode) {
+            Button {
+                if let idx = locations.firstIndex(where: { $0.id == location.id }) {
+                    for j in locations.indices {
+                        locations[j].isUserLocation = (j == idx)
+                    }
+                }
+            } label: {
+                Label("Set as Home", systemImage: "house.fill")
+            }
+            .tint(Color("Graph Line 1"))
+        }
+        .swipeActions(edge: .trailing, allowsFullSwipe: !isEditMode) {
+            Button(role: .destructive) {
+                locationToDelete = location
+                showDeleteAlert = true
+            } label: {
+                Image(systemName: "trash")
+            }
+        }
+    }
+}
+
+// MARK: - Weather Transitions
+
+private struct WindModifier: ViewModifier {
+    var offset: CGFloat
+    var opacity: Double
+    func body(content: Content) -> some View {
+        content.offset(x: offset).opacity(opacity)
+    }
+}
+
+private struct LightningModifier: ViewModifier {
+    var scale: CGFloat
+    var opacity: Double
+    func body(content: Content) -> some View {
+        content.scaleEffect(scale).opacity(opacity)
+    }
+}
+
+private struct TornadoModifier: ViewModifier {
+    var rotation: Double
+    var scale: CGFloat
+    var opacity: Double
+    func body(content: Content) -> some View {
+        content.rotationEffect(.degrees(rotation)).scaleEffect(scale).opacity(opacity)
+    }
+}
+
+private extension AnyTransition {
+    static var wind: AnyTransition { .modifier(active: WindModifier(offset: -300, opacity: 0), identity: WindModifier(offset: 0, opacity: 1)) }
+    static var lightning: AnyTransition { .modifier(active: LightningModifier(scale: 0.1, opacity: 0), identity: LightningModifier(scale: 1, opacity: 1)) }
+    static var tornado: AnyTransition { .modifier(active: TornadoModifier(rotation: 720, scale: 0.1, opacity: 0), identity: TornadoModifier(rotation: 0, scale: 1, opacity: 1)) }
+}
+
+private extension LocationsView {
+    func transition(for id: UUID) -> AnyTransition {
+        switch removalStyle[id] ?? .wind {
+        case .wind: return .wind
+        case .lightning: return .lightning
+        case .tornado: return .tornado
+        }
+    }
+}
+
+// MARK: - Delete Confirmation Dialog
+
+private struct DeleteConfirmDialog: View {
+    var location: LocationDisplay
+    var onAction: (Bool) -> Void
+    @State private var animateIcon = false
+
+    var body: some View {
+        VStack(spacing: 20) {
+            Image(systemName: "cloud.bolt.fill")
+                .font(.system(size: 40))
+                .foregroundColor(Color("Graph Line 1"))
+                .rotationEffect(.degrees(animateIcon ? 0 : -20))
+                .animation(.easeInOut(duration: 0.6).repeatForever(autoreverses: true), value: animateIcon)
+            Text("Delete this location?")
+                .font(.headline)
+                .foregroundColor(Color("Text Primary"))
+            Text(location.model.city)
+                .font(.subheadline)
+                .foregroundColor(Color("Text Secondary"))
+            HStack(spacing: 30) {
+                Button("Cancel") { onAction(false) }
+                Button("Delete") { onAction(true) }
+                    .tint(.red)
+            }
+        }
+        .padding()
+        .background(.ultraThinMaterial)
+        .cornerRadius(24)
+        .shadow(radius: 20)
+        .onAppear {
+            let gen = UIImpactFeedbackGenerator(style: .medium)
+            gen.impactOccurred()
+            animateIcon = true
+        }
+    }
+}
+
+// MARK: - Undo Snackbar
+
+private struct UndoSnackbarView: View {
+    var message: String
+    var progress: Double
+    var undo: () -> Void
+    var preview: LocationDisplay
+
+    var body: some View {
+        HStack(spacing: 12) {
+            Image(systemName: preview.model.weatherIconName)
+                .foregroundColor(Color("Graph Line 2"))
+            VStack(alignment: .leading) {
+                Text(message)
+                    .foregroundColor(Color("Text Primary"))
+                ProgressView(value: progress)
+                    .progressViewStyle(LinearProgressViewStyle(tint: Color("Graph Line 1")))
+                    .frame(width: 120)
+            }
+            Spacer()
+            Button(action: undo) {
+                Image(systemName: "arrow.uturn.left")
+                    .padding(8)
+                    .background(Circle().fill(Color("Graph Line 1")))
+                    .foregroundColor(.white)
+            }
+        }
+        .padding(12)
+        .background(.ultraThinMaterial)
+        .cornerRadius(20)
+        .shadow(radius: 10)
+    }
 }
