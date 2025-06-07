@@ -112,92 +112,8 @@ struct LocationsView: View {
                 .padding(.top, 12)
                 List {
                     ForEach(locations) { location in
-                        HStack(alignment: .top, spacing: 0) {
-                            if isEditMode {
-                                Image(systemName: "line.3.horizontal")
-                                    .foregroundColor(Color("Text Secondary"))
-                                    .opacity(0.25)
-                                    .padding(.top, 24)
-                                    .padding(.trailing, 10)
-                            }
-                            VStack(alignment: .leading, spacing: 0) {
-                                LocationWeatherCard(
-                                    location: location.model,
-                                    isActive: location.id == (selectedLocationID ?? locations.first?.id),
-                                    isUserLocation: location.isUserLocation,
-                                    alertTitle: location.alertTitle,
-                                    trend: .neutral,
-                                    animateAlert: location.alertTitle != nil,
-                                    expand: !isEditMode && expandedLocationID == location.id,
-                                    cardStyle: location.cardStyle,
-                                    onExpand: {
-                                        if !isEditMode {
-                                            let gen = UIImpactFeedbackGenerator(style: .medium)
-                                            gen.impactOccurred()
-                                            withAnimation(.spring()) {
-                                                expandedLocationID = expandedLocationID == location.id ? nil : location.id
-                                                selectedLocationID = location.id
-                                            }
-                                        }
-                                    },
-                                    importantText: importantWeatherText(for: location.model)
-                                )
-                                if isEditMode {
-                                    HStack(spacing: 8) {
-                                        Text("Style:")
-                                            .foregroundColor(Color("Text Secondary"))
-                                        Picker("", selection: Binding(
-                                            get: { location.cardStyle },
-                                            set: { newValue in
-                                                if let idx = locations.firstIndex(where: { $0.id == location.id }) {
-                                                    locations[idx].cardStyle = newValue
-                                                }
-                                            }
-                                        )) {
-                                            Text("Glass").tag(LocationWeatherCard.CardStyle.glass)
-                                            Text("Neon").tag(LocationWeatherCard.CardStyle.neon)
-                                            Text("Minimal").tag(LocationWeatherCard.CardStyle.minimal)
-                                        }
-                                        .pickerStyle(.segmented)
-                                        .frame(width: 230)
-                                    }
-                                    .padding(.horizontal, 12)
-                                    .padding(.top, 8)
-                                }
-                            }
-                        }
-                        .onTapGesture {
-                            if !isEditMode {
-                                let gen = UIImpactFeedbackGenerator(style: .light)
-                                gen.impactOccurred()
-                                withAnimation(.spring()) {
-                                    expandedLocationID = expandedLocationID == location.id ? nil : location.id
-                                    selectedLocationID = location.id
-                                }
-                            }
-                        }
-                        .listRowBackground(Color.clear)
-                        .transition(transition(for: location.id))
-                        .swipeActions(edge: .leading, allowsFullSwipe: !isEditMode) {
-                            Button {
-                                if let idx = locations.firstIndex(where: { $0.id == location.id }) {
-                                    for j in locations.indices {
-                                        locations[j].isUserLocation = (j == idx)
-                                    }
-                                }
-                            } label: {
-                                Label("Set as Home", systemImage: "house.fill")
-                            }
-                            .tint(Color("Graph Line 1"))
-                        }
-                        .swipeActions(edge: .trailing, allowsFullSwipe: !isEditMode) {
-                            Button(role: .destructive) {
-                                locationToDelete = location
-                                showDeleteAlert = true
-                            } label: {
-                                Image(systemName: "trash")
-                            }
-                        }
+                        rowView(for: location)
+                            .transition(transition(for: location.id))
                     }
                     .onMove { from, to in
                         if isEditMode {
@@ -280,6 +196,95 @@ struct LocationsView: View {
             return "Freezing Risk: Take Care"
         }
         return "Humidity: 78%"
+    }
+    
+    @ViewBuilder
+    func rowView(for location: LocationDisplay) -> some View {
+        HStack(alignment: .top, spacing: 0) {
+            if isEditMode {
+                Image(systemName: "line.3.horizontal")
+                    .foregroundColor(Color("Text Secondary"))
+                    .opacity(0.25)
+                    .padding(.top, 24)
+                    .padding(.trailing, 10)
+            }
+            VStack(alignment: .leading, spacing: 0) {
+                LocationWeatherCard(
+                    location: location.model,
+                    isActive: location.id == (selectedLocationID ?? locations.first?.id),
+                    isUserLocation: location.isUserLocation,
+                    alertTitle: location.alertTitle,
+                    trend: .neutral,
+                    animateAlert: location.alertTitle != nil,
+                    expand: !isEditMode && expandedLocationID == location.id,
+                    cardStyle: location.cardStyle,
+                    onExpand: {
+                        if !isEditMode {
+                            let gen = UIImpactFeedbackGenerator(style: .medium)
+                            gen.impactOccurred()
+                            withAnimation(.spring()) {
+                                expandedLocationID = expandedLocationID == location.id ? nil : location.id
+                                selectedLocationID = location.id
+                            }
+                        }
+                    },
+                    importantText: importantWeatherText(for: location.model)
+                )
+                if isEditMode {
+                    HStack(spacing: 8) {
+                        Text("Style:")
+                            .foregroundColor(Color("Text Secondary"))
+                        Picker("", selection: Binding(
+                            get: { location.cardStyle },
+                            set: { newValue in
+                                if let idx = locations.firstIndex(where: { $0.id == location.id }) {
+                                    locations[idx].cardStyle = newValue
+                                }
+                            }
+                        )) {
+                            Text("Glass").tag(LocationWeatherCard.CardStyle.glass)
+                            Text("Neon").tag(LocationWeatherCard.CardStyle.neon)
+                            Text("Minimal").tag(LocationWeatherCard.CardStyle.minimal)
+                        }
+                        .pickerStyle(.segmented)
+                        .frame(width: 230)
+                    }
+                    .padding(.horizontal, 12)
+                    .padding(.top, 8)
+                }
+            }
+        }
+        .onTapGesture {
+            if !isEditMode {
+                let gen = UIImpactFeedbackGenerator(style: .light)
+                gen.impactOccurred()
+                withAnimation(.spring()) {
+                    expandedLocationID = expandedLocationID == location.id ? nil : location.id
+                    selectedLocationID = location.id
+                }
+            }
+        }
+        .listRowBackground(Color.clear)
+        .swipeActions(edge: .leading, allowsFullSwipe: !isEditMode) {
+            Button {
+                if let idx = locations.firstIndex(where: { $0.id == location.id }) {
+                    for j in locations.indices {
+                        locations[j].isUserLocation = (j == idx)
+                    }
+                }
+            } label: {
+                Label("Set as Home", systemImage: "house.fill")
+            }
+            .tint(Color("Graph Line 1"))
+        }
+        .swipeActions(edge: .trailing, allowsFullSwipe: !isEditMode) {
+            Button(role: .destructive) {
+                locationToDelete = location
+                showDeleteAlert = true
+            } label: {
+                Image(systemName: "trash")
+            }
+        }
     }
 }
 
