@@ -25,8 +25,6 @@ struct ContentView: View {
                         Text("AI Page")
                             .font(.largeTitle)
                             .foregroundColor(.gray)
-                    case .trash:
-                        TrashView()
                     case .settings:
                         NavigationView {
                             List {
