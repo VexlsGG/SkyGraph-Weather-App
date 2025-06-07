@@ -1,30 +1,65 @@
 # SkyGraph ☁️📊
 
-SkyGraph is a next-generation weather app for iOS, focused on graphical weather visualization and a vibrant, modern UI. Instead of just numbers, SkyGraph brings weather to life with interactive graphs, smooth navigation, and a design-first approach.
+**SkyGraph** is a next-generation weather app for iOS, delivering rich, graph-based weather data in a vibrant, modern interface. Designed for people who want more than numbers—SkyGraph turns weather into interactive, beautiful visualizations.
 
 ---
 
-## 🚀 Features (Work In Progress)
+## ✨ Key Features
 
-- **Graph-based Weather:** Visualize temperature, rain, UV, wind, humidity, and more with interactive, beautiful cards and line charts.
-- **Modern UI:** Custom glassmorphic cards, bold icons, and a colorful, dark-friendly interface inspired by top weather apps (WeatherGraph, Carrot, Apple Weather, etc).
-- **Nav Bar:** Animated, icon-driven navigation with easy access to all main sections.
-- **Responsive Layout:** Designed for iPhone, built using SwiftUI.
-- **Tested Components:** Test folders included for future-proofing and CI integration.
+- **Graphical Weather:** View temperature, precipitation, wind, UV, and more using interactive charts and cards.
+- **Modern UI:** Custom glassmorphism, bold icons, and a visually stunning, dark-friendly design inspired by apps like WeatherGraph, Carrot, and Apple Weather.
+- **Animated Navigation:** Intuitive, icon-first navigation for effortless access to each section.
+- **SwiftUI-First:** Crafted from the ground up for iPhone, leveraging the power of SwiftUI.
+- **Expandable:** Designed for fast iteration, future integrations (WeatherKit, Apple Watch, widgets), and a growing set of community features.
 
 ---
 
-## 📅 Roadmap
+## 📢 Get Involved
 
-- [x] Home Page UI
-- [x] Nav Bar with custom icons
-- [ ] Graphs Page – advanced weather graphs, trends, and detailed analytics
-- [ ] Map Page – weather radar and interactive mapping
-- [ ] Chat Page – AI weather assistant for questions and conversational forecasts
-- [ ] Settings Page – customize providers, units, and themes
-- [ ] Hourly & Daily Graphs: Interactive weather graphs for each day/hour
-- [ ] Widgets: Home/lock screen widgets with weather snapshots
-- [ ] Provider Switch: Choose weather data source (OpenWeather, Tomorrow.io, WeatherKit)
-- [ ] More Animations (Lottie)
-- [ ] Apple Watch App
-- [ ] Custom Themes & Color Options
+SkyGraph is built for the community—**feature requests, bug reports, and ideas are always welcome!**
+
+- **Have an idea or feature request?**  
+  [Open an Issue](../../issues/new?labels=feature) labeled `feature`.
+
+- **Found a bug or UI glitch?**  
+  [Open an Issue](../../issues/new?labels=bug) labeled `bug`.
+
+- **Want to help?**  
+  Check out the [open Issues](../../issues) and leave a comment or PR!
+
+**Pro Tip:** Use labels like `feature`, `bug`, and `ui` to help us triage faster.
+
+---
+
+## 🛠️ Repo Structure
+
+- `/SkyGraph/` — Main SwiftUI app source code
+- `/SkyGraphTests/` & `/SkyGraphUITests/` — Unit and UI tests
+- `/Assets/` — App icons, color sets, and visual resources
+
+---
+
+## ⭐️ How to Follow Project Progress
+
+SkyGraph tracks all tasks and priorities in [GitHub Projects](../../projects):
+
+- **View what’s in progress or planned:**  
+  [Visit the SkyGraph Project Board](../../projects)
+
+- **Suggest new features or report bugs:**  
+  [Create an Issue](../../issues/new/choose)
+
+*You can also filter by labels like `feature`, `bug`, or `ui` to see specific areas.*
+
+---
+
+
+## 🙌 Credits
+
+Inspired by the best in weather app design and powered by open collaboration.
+
+---
+
+> SkyGraph is in active development!  
+> Follow along, join the conversation, and help shape the next generation of weather visualization.
+
