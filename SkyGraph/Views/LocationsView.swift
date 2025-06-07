@@ -34,6 +34,7 @@ private let defaultLocations: [LocationDisplay] = [
 
 struct LocationsView: View {
     @AppStorage("savedLocations") private var savedLocationsData: Data = Data()
+    @AppStorage("trashedLocations") private var trashedLocationsData: Data = Data()
     @State private var locations: [LocationDisplay] = []
     @State private var showingAddLocation = false
     @State private var selectedLocationID: UUID? = nil
@@ -209,6 +210,7 @@ struct LocationsView: View {
         }
         .alert("Delete this location?", isPresented: $showDeleteAlert, presenting: locationToDelete) { loc in
             Button("Delete", role: .destructive) {
+                moveToTrash(loc)
                 locations.removeAll(where: { $0.id == loc.id })
             }
             Button("Cancel", role: .cancel) { }
@@ -241,6 +243,18 @@ struct LocationsView: View {
         if let encoded = try? JSONEncoder().encode(locations) {
             savedLocationsData = encoded
         }
+    }
+
+    private func moveToTrash(_ loc: LocationDisplay) {
+        var current = loadTrashed()
+        current.append(TrashedLocation(location: loc, deletedAt: Date()))
+        if let encoded = try? JSONEncoder().encode(current) {
+            trashedLocationsData = encoded
+        }
+    }
+
+    private func loadTrashed() -> [TrashedLocation] {
+        (try? JSONDecoder().decode([TrashedLocation].self, from: trashedLocationsData)) ?? []
     }
 
     func importantWeatherText(for model: LocationModel) -> String {
