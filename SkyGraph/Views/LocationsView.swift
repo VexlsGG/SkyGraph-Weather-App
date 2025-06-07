@@ -197,65 +197,7 @@ struct LocationsView: View {
         }
         return "Humidity: 78%"
     }
-}
-
-#Preview {
-    LocationsView()
-}
-
-// MARK: - Delete & Undo Helpers
-
-private extension LocationsView {
-    func performDelete(_ loc: LocationDisplay) {
-        guard let index = locations.firstIndex(where: { $0.id == loc.id }) else { return }
-        let style = WeatherAnimationStyle.allCases.randomElement() ?? .wind
-        removalStyle[loc.id] = style
-        let generator = UIImpactFeedbackGenerator(style: .rigid)
-        generator.impactOccurred()
-        withAnimation(.easeInOut) {
-            deletedLocation = (loc, index)
-            locations.remove(at: index)
-        }
-        weatherMessage = message(for: loc)
-        startUndoTimer()
-    }
-
-    func startUndoTimer() {
-        showUndo = true
-        undoProgress = 1.0
-        undoTimer?.invalidate()
-        undoTimer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { timer in
-            undoProgress -= 0.05 / 5
-            if undoProgress <= 0 {
-                timer.invalidate()
-                finalizeDelete()
-            }
-        }
-    }
-
-    func finalizeDelete() {
-        withAnimation { showUndo = false }
-        deletedLocation = nil
-        undoTimer?.invalidate(); undoTimer = nil
-    }
-
-    func undoDelete() {
-        guard let deleted = deletedLocation else { return }
-        let generator = UIImpactFeedbackGenerator(style: .light)
-        generator.impactOccurred()
-        withAnimation(.spring()) {
-            locations.insert(deleted.item, at: deleted.index)
-        }
-        finalizeDelete()
-    }
-
-    func message(for loc: LocationDisplay) -> String {
-        [
-            "\(loc.model.city) just blew away!",
-            "That location's in the cloud now... literally.",
-            "\(loc.model.city) was whisked away by the wind."].randomElement() ?? "Location deleted"
-    }
-
+    
     @ViewBuilder
     func rowView(for location: LocationDisplay) -> some View {
         HStack(alignment: .top, spacing: 0) {
@@ -346,37 +288,92 @@ private extension LocationsView {
     }
 }
 
+#Preview {
+    LocationsView()
+}
+
+// MARK: - Delete & Undo Helpers
+
+private extension LocationsView {
+    func performDelete(_ loc: LocationDisplay) {
+        guard let index = locations.firstIndex(where: { $0.id == loc.id }) else { return }
+        let style = WeatherAnimationStyle.allCases.randomElement() ?? .wind
+        removalStyle[loc.id] = style
+        let generator = UIImpactFeedbackGenerator(style: .rigid)
+        generator.impactOccurred()
+        withAnimation(.easeInOut) {
+            deletedLocation = (loc, index)
+            locations.remove(at: index)
+        }
+        weatherMessage = message(for: loc)
+        startUndoTimer()
+    }
+
+    func startUndoTimer() {
+        showUndo = true
+        undoProgress = 1.0
+        undoTimer?.invalidate()
+        undoTimer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { timer in
+            undoProgress -= 0.05 / 5
+            if undoProgress <= 0 {
+                timer.invalidate()
+                finalizeDelete()
+            }
+        }
+    }
+
+    func finalizeDelete() {
+        withAnimation { showUndo = false }
+        deletedLocation = nil
+        undoTimer?.invalidate(); undoTimer = nil
+    }
+
+    func undoDelete() {
+        guard let deleted = deletedLocation else { return }
+        let generator = UIImpactFeedbackGenerator(style: .light)
+        generator.impactOccurred()
+        withAnimation(.spring()) {
+            locations.insert(deleted.item, at: deleted.index)
+        }
+        finalizeDelete()
+    }
+
+    func message(for loc: LocationDisplay) -> String {
+        [
+            "\(loc.model.city) just blew away!",
+            "That location's in the cloud now... literally.",
+            "\(loc.model.city) was whisked away by the wind."].randomElement() ?? "Location deleted"
+    }
+}
+
 // MARK: - Weather Transitions
 
+private struct IdentityModifier: ViewModifier {
+    func body(content: Content) -> some View { content }
+}
+
 private struct WindModifier: ViewModifier {
-    var offset: CGFloat
-    var opacity: Double
     func body(content: Content) -> some View {
-        content.offset(x: offset).opacity(opacity)
+        content.offset(x: -300).opacity(0)
     }
 }
 
 private struct LightningModifier: ViewModifier {
-    var scale: CGFloat
-    var opacity: Double
     func body(content: Content) -> some View {
-        content.scaleEffect(scale).opacity(opacity)
+        content.scaleEffect(0.1).opacity(0)
     }
 }
 
 private struct TornadoModifier: ViewModifier {
-    var rotation: Double
-    var scale: CGFloat
-    var opacity: Double
     func body(content: Content) -> some View {
-        content.rotationEffect(.degrees(rotation)).scaleEffect(scale).opacity(opacity)
+        content.rotationEffect(.degrees(720)).scaleEffect(0.1).opacity(0)
     }
 }
 
 private extension AnyTransition {
-    static var wind: AnyTransition { .modifier(active: WindModifier(offset: -300, opacity: 0), identity: WindModifier(offset: 0, opacity: 1)) }
-    static var lightning: AnyTransition { .modifier(active: LightningModifier(scale: 0.1, opacity: 0), identity: LightningModifier(scale: 1, opacity: 1)) }
-    static var tornado: AnyTransition { .modifier(active: TornadoModifier(rotation: 720, scale: 0.1, opacity: 0), identity: TornadoModifier(rotation: 0, scale: 1, opacity: 1)) }
+    static var wind: AnyTransition { .modifier(active: WindModifier(), identity: IdentityModifier()) }
+    static var lightning: AnyTransition { .modifier(active: LightningModifier(), identity: IdentityModifier()) }
+    static var tornado: AnyTransition { .modifier(active: TornadoModifier(), identity: IdentityModifier()) }
 }
 
 private extension LocationsView {
