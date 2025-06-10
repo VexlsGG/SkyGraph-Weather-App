@@ -16,39 +16,13 @@ struct ContentView: View {
                     case .home:
                         HomePageView(showLocations: $showLocations)  // Pass binding
                     case .forecast:
-                        Text("Forecast Page")
-                            .font(.largeTitle)
-                            .foregroundColor(.gray)
+                        ForecastView()
                     case .maps:
                         RadarView()
                     case .ai:
-                        Text("AI Page")
-                            .font(.largeTitle)
-                            .foregroundColor(.gray)
+                        AIChatView()
                     case .settings:
-                        NavigationView {
-                            List {
-                                ForEach(items) { item in
-                                    NavigationLink {
-                                        Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-                                    } label: {
-                                        Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
-                                    }
-                                }
-                                .onDelete(perform: deleteItems)
-                            }
-                            .toolbar {
-                                ToolbarItem(placement: .navigationBarTrailing) {
-                                    EditButton()
-                                }
-                                ToolbarItem {
-                                    Button(action: addItem) {
-                                        Label("Add Item", systemImage: "plus")
-                                    }
-                                }
-                            }
-                            .navigationTitle("Settings / Items")
-                        }
+                        SettingsView()
                     }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
