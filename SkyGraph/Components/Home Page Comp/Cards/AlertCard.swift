@@ -72,7 +72,7 @@ struct AlertCard: View {
                         }
                         Text(summary)
                             .font(.subheadline)
-                            .foregroundColor(Color("Text"))
+                            .foregroundColor(Color("Text Primary"))
                             .lineLimit(2)
                         Text(area)
                             .font(.caption)

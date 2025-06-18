@@ -5,60 +5,49 @@ struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var items: [Item]
     
-    @State private var activeTab: NavBarTab = .home
+    @State private var selectedTab: String = NavBarTab.home.id
+    
+    @State private var showLocations = false 
+    
+    @State private var weatherType: WeatherType = .night
+
+    
+    private var tabItems: [NavBarTabItem] {
+        [
+            NavBarTab.home.toItem,
+            NavBarTab.forecast.toItem,
+            NavBarTab.ai.toItem,
+            NavBarTab.settings.toItem
+        ]
+    }
 
     var body: some View {
-        ZStack(alignment: .bottom) {
-            Group {
-                switch activeTab {
-                case .home:
-                    HomePageView()
-                case .forecast:
-                    Text("Forecast Page")
-                        .font(.largeTitle)
-                        .foregroundColor(.gray)
-                case .maps:
-                    RadarView()
-                case .ai:
-                    Text("AI Page")
-                        .font(.largeTitle)
-                        .foregroundColor(.gray)
-                case .settings:
-                    NavigationView {
-                        List {
-                            ForEach(items) { item in
-                                NavigationLink {
-                                    Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-                                } label: {
-                                    Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
-                                }
-                            }
-                            .onDelete(perform: deleteItems)
-                        }
-                        .toolbar {
-                            ToolbarItem(placement: .navigationBarTrailing) {
-                                EditButton()
-                            }
-                            ToolbarItem {
-                                Button(action: addItem) {
-                                    Label("Add Item", systemImage: "plus")
-                                }
-                            }
-                        }
-                        .navigationTitle("Settings / Items")
+        NavigationStack {
+            ZStack(alignment: .bottom) {
+                Group {
+                    switch selectedTab {
+                    case NavBarTab.home.id:
+                        HomePageView(showLocations: $showLocations)
+                    case NavBarTab.forecast.id:
+                        ForecastView()
+                    case NavBarTab.ai.id:
+                        AIChatHomeView()
+                    case NavBarTab.settings.id:
+                        SettingsView()
+                    default:
+                        HomePageView(showLocations: $showLocations)
                     }
                 }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color("Background").ignoresSafeArea())
+                
+                Navbar(selected: $selectedTab, tabs: tabItems, weatherType: weatherType)
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color("Background").ignoresSafeArea())
-            
-            Navbar(activeTab: activeTab) { tab in
-                withAnimation(.spring()) {
-                    activeTab = tab
-                }
+            .ignoresSafeArea(.container, edges: .bottom)
+            .navigationDestination(isPresented: $showLocations) {
+                LocationsView()
             }
         }
-        .ignoresSafeArea(.container, edges: .bottom)
     }
 
     private func addItem() {
