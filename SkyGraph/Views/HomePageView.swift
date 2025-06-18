@@ -12,7 +12,7 @@ struct HomePageView: View {
                     alertTitle: "Air Quality Alert",
                     severity: "Moderate",
                     summary: "Air Quality is not suitable for certain groups.",
-                    area: "Belleville, MI",
+                    area: "Cupertino, CA",
                     sender: "National Weather Service",
                     event: "AQ",
                     starts: Date(),
