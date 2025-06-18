@@ -1,11 +1,3 @@
-//
-//  MiniStatRing.swift
-//  SkyGraph
-//
-//  Created by Lisa Oliver on 6/16/25.
-//
-
-
 import SwiftUI
 
 struct MiniStatRing: View {

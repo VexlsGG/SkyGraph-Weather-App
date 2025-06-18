@@ -3,13 +3,13 @@ import WatchKit
 
 struct SettingsView: View {
     @AppStorage("useMetric") private var useMetric = false
-    @AppStorage("provider") private var provider = 1 // 0: OpenWeather, 1: Tomorrow.io, 2: Apple Weather
+    @AppStorage("provider") private var provider = 1
     @AppStorage("minimalMode") private var minimalMode = false
     @AppStorage("enableHaptics") private var enableHaptics = true
     @AppStorage("smartMode") private var smartMode = false
 
     let providers = ["OpenWeather", "Tomorrow.io", "Apple Weather"]
-    let fakeTemps = [72, 70, 69] // Simulated side-by-side temps
+    let fakeTemps = [72, 70, 69]
 
     var body: some View {
         Form {
@@ -75,7 +75,6 @@ struct SettingsView: View {
         .navigationTitle("Settings")
     }
 
-    // MARK: - Trigger Haptic (Only if enabled)
     func triggerHaptic(style: WKHapticType = .click) {
         if enableHaptics {
             WKInterfaceDevice.current().play(style)

@@ -1,13 +1,18 @@
 import SwiftUI
 
 struct RadarCard: View {
-    @State private var isPremium: Bool = false // This is where to enable premium or na
+    var isPremium: Bool = false // now a var so you can pass from HomePageView
+    var liveRadarImage: Image? = nil
+    var onTap: () -> Void = {} // <-- closure for tap action
+
     @State private var isPressed = false
     @State private var sweepAngle: Double = 210
-    var liveRadarImage: Image? = nil
     
     var body: some View {
-        NavigationLink(destination: isPremium ? RadarView() : nil) {
+        Button(action: {
+            if isPremium { onTap() }
+            // else: you could show a paywall here
+        }) {
             ZStack {
                 RoundedRectangle(cornerRadius: 22, style: .continuous)
                     .fill(
@@ -118,6 +123,7 @@ struct RadarCard: View {
                             VStack {
                                 Spacer()
                                 Button(action: {
+                                    // show paywall or upsell here
                                 }) {
                                     HStack {
                                         Image(systemName: "star.fill")
@@ -227,13 +233,11 @@ struct RadarSweepOverlay: Shape {
 }
 
 #Preview {
-    NavigationView {
-        RadarCard(
-            // Example: To show a live radar image, provide one here:
-            // liveRadarImage: Image("YourRadarAssetName"),
-            // isPremium: true // test premium mode
-        )
-        .padding()
-        .background(Color("Background"))
-    }
+    RadarCard(
+        isPremium: true,
+        liveRadarImage: nil,
+        onTap: { print("Tapped!") }
+    )
+    .padding()
+    .background(Color("Background"))
 }

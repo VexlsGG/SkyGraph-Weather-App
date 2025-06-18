@@ -1,14 +1,18 @@
 import SwiftUI
 
-struct GlassBackground: UIViewRepresentable {
-    var cornerRadius: CGFloat = 18
+struct GlassBackground: View {
+    var cornerRadius: CGFloat = 22
+    var opacity: Double = 0.85
+    var blur: CGFloat = 18
 
-    func makeUIView(context: Context) -> UIVisualEffectView {
-        let blur = UIBlurEffect(style: .systemUltraThinMaterial)
-        let view = UIVisualEffectView(effect: blur)
-        view.clipsToBounds = true
-        view.layer.cornerRadius = cornerRadius
-        return view
+    var body: some View {
+        RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
+            .fill(.ultraThinMaterial)
+            .opacity(opacity)
+            .background(
+                RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
+                    .stroke(Color.white.opacity(0.13), lineWidth: 1.2)
+            )
+            .blur(radius: blur / 8)
     }
-    func updateUIView(_ uiView: UIVisualEffectView, context: Context) {}
 }

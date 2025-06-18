@@ -1,6 +1,5 @@
 import SwiftUI
 
-// This MUST conform to Codable & Identifiable for saving/loading to work!
 struct LocationDisplay: Identifiable, Codable, Equatable {
     var id: UUID = UUID()
     var model: LocationModel
@@ -9,7 +8,6 @@ struct LocationDisplay: Identifiable, Codable, Equatable {
     var cardStyle: LocationWeatherCard.CardStyle = .glass
 }
 
-// Make sure LocationModel and LocationWeatherCard.CardStyle are Codable/Equatable too!
 
 private let defaultLocations: [LocationDisplay] = [
     LocationDisplay(
@@ -292,7 +290,6 @@ struct LocationsView: View {
     LocationsView()
 }
 
-// MARK: - Delete & Undo Helpers
 
 private extension LocationsView {
     func performDelete(_ loc: LocationDisplay) {
@@ -346,35 +343,60 @@ private extension LocationsView {
     }
 }
 
-// MARK: - Weather Transitions
-
-private struct IdentityModifier: ViewModifier {
-    func body(content: Content) -> some View { content }
-}
-
 private struct WindModifier: ViewModifier {
+    let isActive: Bool
     func body(content: Content) -> some View {
-        content.offset(x: -300).opacity(0)
+        if isActive {
+            content.offset(x: -300).opacity(0)
+        } else {
+            content
+        }
     }
 }
 
 private struct LightningModifier: ViewModifier {
+    let isActive: Bool
     func body(content: Content) -> some View {
-        content.scaleEffect(0.1).opacity(0)
+        if isActive {
+            content.scaleEffect(0.1).opacity(0)
+        } else {
+            content
+        }
     }
 }
 
 private struct TornadoModifier: ViewModifier {
+    let isActive: Bool
     func body(content: Content) -> some View {
-        content.rotationEffect(.degrees(720)).scaleEffect(0.1).opacity(0)
+        if isActive {
+            content.rotationEffect(.degrees(720)).scaleEffect(0.1).opacity(0)
+        } else {
+            content
+        }
     }
 }
 
 private extension AnyTransition {
-    static var wind: AnyTransition { .modifier(active: WindModifier(), identity: IdentityModifier()) }
-    static var lightning: AnyTransition { .modifier(active: LightningModifier(), identity: IdentityModifier()) }
-    static var tornado: AnyTransition { .modifier(active: TornadoModifier(), identity: IdentityModifier()) }
+    static var wind: AnyTransition {
+        .modifier(
+            active: WindModifier(isActive: true),
+            identity: WindModifier(isActive: false)
+        )
+    }
+    static var lightning: AnyTransition {
+        .modifier(
+            active: LightningModifier(isActive: true),
+            identity: LightningModifier(isActive: false)
+        )
+    }
+    static var tornado: AnyTransition {
+        .modifier(
+            active: TornadoModifier(isActive: true),
+            identity: TornadoModifier(isActive: false)
+        )
+    }
 }
+
 
 private extension LocationsView {
     func transition(for id: UUID) -> AnyTransition {
@@ -385,8 +407,6 @@ private extension LocationsView {
         }
     }
 }
-
-// MARK: - Delete Confirmation Dialog
 
 private struct DeleteConfirmDialog: View {
     var location: LocationDisplay
@@ -423,8 +443,6 @@ private struct DeleteConfirmDialog: View {
         }
     }
 }
-
-// MARK: - Undo Snackbar
 
 private struct UndoSnackbarView: View {
     var message: String

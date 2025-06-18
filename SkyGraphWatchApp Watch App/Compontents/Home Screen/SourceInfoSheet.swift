@@ -7,7 +7,6 @@ struct SourceInfoSheet: View {
 
     var body: some View {
         ZStack {
-            // Glassy background
             RoundedRectangle(cornerRadius: 0)
                 .fill(.ultraThinMaterial)
                 .ignoresSafeArea()

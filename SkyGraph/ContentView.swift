@@ -5,37 +5,45 @@ struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var items: [Item]
     
-    @State private var activeTab: NavBarTab = .home
-    @State private var showLocations = false  // Add this for navigation
+    @State private var selectedTab: String = NavBarTab.home.id
+    
+    @State private var showLocations = false 
+    
+    @State private var weatherType: WeatherType = .night
+
+    
+    private var tabItems: [NavBarTabItem] {
+        [
+            NavBarTab.home.toItem,
+            NavBarTab.forecast.toItem,
+            NavBarTab.ai.toItem,
+            NavBarTab.settings.toItem
+        ]
+    }
 
     var body: some View {
-        NavigationStack {   // <---- WRAP THE WHOLE APP
+        NavigationStack {
             ZStack(alignment: .bottom) {
                 Group {
-                    switch activeTab {
-                    case .home:
-                        HomePageView(showLocations: $showLocations)  // Pass binding
-                    case .forecast:
+                    switch selectedTab {
+                    case NavBarTab.home.id:
+                        HomePageView(showLocations: $showLocations)
+                    case NavBarTab.forecast.id:
                         ForecastView()
-                    case .maps:
-                        RadarView()
-                    case .ai:
-                        AIChatView()
-                    case .settings:
+                    case NavBarTab.ai.id:
+                        AIChatHomeView()
+                    case NavBarTab.settings.id:
                         SettingsView()
+                    default:
+                        HomePageView(showLocations: $showLocations)
                     }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(Color("Background").ignoresSafeArea())
                 
-                Navbar(activeTab: activeTab) { tab in
-                    withAnimation(.spring()) {
-                        activeTab = tab
-                    }
-                }
+                Navbar(selected: $selectedTab, tabs: tabItems, weatherType: weatherType)
             }
             .ignoresSafeArea(.container, edges: .bottom)
-            // THIS IS WHAT TRIGGERS THE LOCATIONS PAGE
             .navigationDestination(isPresented: $showLocations) {
                 LocationsView()
             }

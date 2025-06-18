@@ -10,9 +10,48 @@
 		3878B0C92DF225D100174CFD /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 3878B0C82DF225D100174CFD /* Lottie */; };
 		3878B0D42DF26EF100174CFD /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 3878B0D22DF26EED00174CFD /* .gitignore */; };
 		3878B0D62DF26F1900174CFD /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 3878B0D52DF26F1500174CFD /* README.md */; };
+		38885CD22E01C9CE00942F1E /* SkyGraphWatchApp Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 38885CB22E01C9CA00942F1E /* SkyGraphWatchApp Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		38885D002E01CDF000942F1E /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38F1D0DB2DFC9C8600E2AE61 /* WidgetKit.framework */; };
+		38885D012E01CDF000942F1E /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38F1D0DD2DFC9C8600E2AE61 /* SwiftUI.framework */; };
+		38885D0C2E01CDF300942F1E /* SkyGraphComplicationExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 38885CFF2E01CDF000942F1E /* SkyGraphComplicationExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		38885CBF2E01C9CD00942F1E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 38978B0C2DEFD4AB00DC1C2A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 38885CB12E01C9CA00942F1E;
+			remoteInfo = "SkyGraphWatchApp Watch App";
+		};
+		38885CC92E01C9CD00942F1E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 38978B0C2DEFD4AB00DC1C2A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 38885CB12E01C9CA00942F1E;
+			remoteInfo = "SkyGraphWatchApp Watch App";
+		};
+		38885CD02E01C9CE00942F1E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 38978B0C2DEFD4AB00DC1C2A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 38885CB12E01C9CA00942F1E;
+			remoteInfo = "SkyGraphWatchApp Watch App";
+		};
+		38885D0A2E01CDF300942F1E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 38978B0C2DEFD4AB00DC1C2A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 38885CFE2E01CDF000942F1E;
+			remoteInfo = SkyGraphComplicationExtension;
+		};
+		38885D182E01D32000942F1E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 38978B0C2DEFD4AB00DC1C2A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 38885CFE2E01CDF000942F1E;
+			remoteInfo = SkyGraphComplicationExtension;
+		};
 		38978B242DEFD4AE00DC1C2A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 38978B0C2DEFD4AB00DC1C2A /* Project object */;
@@ -29,15 +68,72 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		38885CD62E01C9CE00942F1E /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				38885CD22E01C9CE00942F1E /* SkyGraphWatchApp Watch App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		38885D112E01CDF300942F1E /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				38885D0C2E01CDF300942F1E /* SkyGraphComplicationExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		38F1D0F22DFC9C8900E2AE61 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		384A475C2DFA2582006AB4BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3878B0D22DF26EED00174CFD /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		3878B0D52DF26F1500174CFD /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		38885CB22E01C9CA00942F1E /* SkyGraphWatchApp Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SkyGraphWatchApp Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		38885CBE2E01C9CD00942F1E /* SkyGraphWatchApp Watch AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SkyGraphWatchApp Watch AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		38885CC82E01C9CD00942F1E /* SkyGraphWatchApp Watch AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SkyGraphWatchApp Watch AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		38885CFF2E01CDF000942F1E /* SkyGraphComplicationExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SkyGraphComplicationExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		38978B142DEFD4AB00DC1C2A /* SkyGraph.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SkyGraph.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		38978B232DEFD4AE00DC1C2A /* SkyGraphTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SkyGraphTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		38978B2D2DEFD4AE00DC1C2A /* SkyGraphUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SkyGraphUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		38F1D0DB2DFC9C8600E2AE61 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		38F1D0DD2DFC9C8600E2AE61 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		38885CB32E01C9CA00942F1E /* SkyGraphWatchApp Watch App */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "SkyGraphWatchApp Watch App";
+			sourceTree = "<group>";
+		};
+		38885CC12E01C9CD00942F1E /* SkyGraphWatchApp Watch AppTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "SkyGraphWatchApp Watch AppTests";
+			sourceTree = "<group>";
+		};
+		38885CCB2E01C9CE00942F1E /* SkyGraphWatchApp Watch AppUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "SkyGraphWatchApp Watch AppUITests";
+			sourceTree = "<group>";
+		};
 		38978B162DEFD4AB00DC1C2A /* SkyGraph */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = SkyGraph;
@@ -56,6 +152,36 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		38885CAF2E01C9CA00942F1E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		38885CBB2E01C9CD00942F1E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		38885CC52E01C9CD00942F1E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		38885CFC2E01CDF000942F1E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				38885D012E01CDF000942F1E /* SwiftUI.framework in Frameworks */,
+				38885D002E01CDF000942F1E /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		38978B112DEFD4AB00DC1C2A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -84,11 +210,16 @@
 		38978B0B2DEFD4AB00DC1C2A = {
 			isa = PBXGroup;
 			children = (
+				384A475C2DFA2582006AB4BC /* Info.plist */,
 				3878B0D52DF26F1500174CFD /* README.md */,
 				3878B0D22DF26EED00174CFD /* .gitignore */,
 				38978B162DEFD4AB00DC1C2A /* SkyGraph */,
 				38978B262DEFD4AE00DC1C2A /* SkyGraphTests */,
 				38978B302DEFD4AE00DC1C2A /* SkyGraphUITests */,
+				38885CB32E01C9CA00942F1E /* SkyGraphWatchApp Watch App */,
+				38885CC12E01C9CD00942F1E /* SkyGraphWatchApp Watch AppTests */,
+				38885CCB2E01C9CE00942F1E /* SkyGraphWatchApp Watch AppUITests */,
+				38F1D0DA2DFC9C8600E2AE61 /* Frameworks */,
 				38978B152DEFD4AB00DC1C2A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -99,13 +230,116 @@
 				38978B142DEFD4AB00DC1C2A /* SkyGraph.app */,
 				38978B232DEFD4AE00DC1C2A /* SkyGraphTests.xctest */,
 				38978B2D2DEFD4AE00DC1C2A /* SkyGraphUITests.xctest */,
+				38885CB22E01C9CA00942F1E /* SkyGraphWatchApp Watch App.app */,
+				38885CBE2E01C9CD00942F1E /* SkyGraphWatchApp Watch AppTests.xctest */,
+				38885CC82E01C9CD00942F1E /* SkyGraphWatchApp Watch AppUITests.xctest */,
+				38885CFF2E01CDF000942F1E /* SkyGraphComplicationExtension.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		38F1D0DA2DFC9C8600E2AE61 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				38F1D0DB2DFC9C8600E2AE61 /* WidgetKit.framework */,
+				38F1D0DD2DFC9C8600E2AE61 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		38885CB12E01C9CA00942F1E /* SkyGraphWatchApp Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 38885CD32E01C9CE00942F1E /* Build configuration list for PBXNativeTarget "SkyGraphWatchApp Watch App" */;
+			buildPhases = (
+				38885CAE2E01C9CA00942F1E /* Sources */,
+				38885CAF2E01C9CA00942F1E /* Frameworks */,
+				38885CB02E01C9CA00942F1E /* Resources */,
+				38885D112E01CDF300942F1E /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				38885D0B2E01CDF300942F1E /* PBXTargetDependency */,
+				38885D192E01D32000942F1E /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				38885CB32E01C9CA00942F1E /* SkyGraphWatchApp Watch App */,
+			);
+			name = "SkyGraphWatchApp Watch App";
+			packageProductDependencies = (
+			);
+			productName = "SkyGraphWatchApp Watch App";
+			productReference = 38885CB22E01C9CA00942F1E /* SkyGraphWatchApp Watch App.app */;
+			productType = "com.apple.product-type.application";
+		};
+		38885CBD2E01C9CD00942F1E /* SkyGraphWatchApp Watch AppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 38885CD72E01C9CE00942F1E /* Build configuration list for PBXNativeTarget "SkyGraphWatchApp Watch AppTests" */;
+			buildPhases = (
+				38885CBA2E01C9CD00942F1E /* Sources */,
+				38885CBB2E01C9CD00942F1E /* Frameworks */,
+				38885CBC2E01C9CD00942F1E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				38885CC02E01C9CD00942F1E /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				38885CC12E01C9CD00942F1E /* SkyGraphWatchApp Watch AppTests */,
+			);
+			name = "SkyGraphWatchApp Watch AppTests";
+			packageProductDependencies = (
+			);
+			productName = "SkyGraphWatchApp Watch AppTests";
+			productReference = 38885CBE2E01C9CD00942F1E /* SkyGraphWatchApp Watch AppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		38885CC72E01C9CD00942F1E /* SkyGraphWatchApp Watch AppUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 38885CDA2E01C9CE00942F1E /* Build configuration list for PBXNativeTarget "SkyGraphWatchApp Watch AppUITests" */;
+			buildPhases = (
+				38885CC42E01C9CD00942F1E /* Sources */,
+				38885CC52E01C9CD00942F1E /* Frameworks */,
+				38885CC62E01C9CD00942F1E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				38885CCA2E01C9CD00942F1E /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				38885CCB2E01C9CE00942F1E /* SkyGraphWatchApp Watch AppUITests */,
+			);
+			name = "SkyGraphWatchApp Watch AppUITests";
+			packageProductDependencies = (
+			);
+			productName = "SkyGraphWatchApp Watch AppUITests";
+			productReference = 38885CC82E01C9CD00942F1E /* SkyGraphWatchApp Watch AppUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		38885CFE2E01CDF000942F1E /* SkyGraphComplicationExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 38885D0E2E01CDF300942F1E /* Build configuration list for PBXNativeTarget "SkyGraphComplicationExtension" */;
+			buildPhases = (
+				38885CFB2E01CDF000942F1E /* Sources */,
+				38885CFC2E01CDF000942F1E /* Frameworks */,
+				38885CFD2E01CDF000942F1E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SkyGraphComplicationExtension;
+			packageProductDependencies = (
+			);
+			productName = SkyGraphComplicationExtension;
+			productReference = 38885CFF2E01CDF000942F1E /* SkyGraphComplicationExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		38978B132DEFD4AB00DC1C2A /* SkyGraph */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 38978B372DEFD4AE00DC1C2A /* Build configuration list for PBXNativeTarget "SkyGraph" */;
@@ -113,10 +347,13 @@
 				38978B102DEFD4AB00DC1C2A /* Sources */,
 				38978B112DEFD4AB00DC1C2A /* Frameworks */,
 				38978B122DEFD4AB00DC1C2A /* Resources */,
+				38F1D0F22DFC9C8900E2AE61 /* Embed Foundation Extensions */,
+				38885CD62E01C9CE00942F1E /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				38885CD12E01C9CE00942F1E /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				38978B162DEFD4AB00DC1C2A /* SkyGraph */,
@@ -185,6 +422,20 @@
 				LastSwiftUpdateCheck = 1640;
 				LastUpgradeCheck = 1640;
 				TargetAttributes = {
+					38885CB12E01C9CA00942F1E = {
+						CreatedOnToolsVersion = 16.4;
+					};
+					38885CBD2E01C9CD00942F1E = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = 38885CB12E01C9CA00942F1E;
+					};
+					38885CC72E01C9CD00942F1E = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = 38885CB12E01C9CA00942F1E;
+					};
+					38885CFE2E01CDF000942F1E = {
+						CreatedOnToolsVersion = 16.4;
+					};
 					38978B132DEFD4AB00DC1C2A = {
 						CreatedOnToolsVersion = 16.4;
 					};
@@ -218,11 +469,43 @@
 				38978B132DEFD4AB00DC1C2A /* SkyGraph */,
 				38978B222DEFD4AE00DC1C2A /* SkyGraphTests */,
 				38978B2C2DEFD4AE00DC1C2A /* SkyGraphUITests */,
+				38885CB12E01C9CA00942F1E /* SkyGraphWatchApp Watch App */,
+				38885CBD2E01C9CD00942F1E /* SkyGraphWatchApp Watch AppTests */,
+				38885CC72E01C9CD00942F1E /* SkyGraphWatchApp Watch AppUITests */,
+				38885CFE2E01CDF000942F1E /* SkyGraphComplicationExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		38885CB02E01C9CA00942F1E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		38885CBC2E01C9CD00942F1E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		38885CC62E01C9CD00942F1E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		38885CFD2E01CDF000942F1E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		38978B122DEFD4AB00DC1C2A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -249,6 +532,34 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		38885CAE2E01C9CA00942F1E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		38885CBA2E01C9CD00942F1E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		38885CC42E01C9CD00942F1E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		38885CFB2E01CDF000942F1E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		38978B102DEFD4AB00DC1C2A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -273,6 +584,31 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		38885CC02E01C9CD00942F1E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 38885CB12E01C9CA00942F1E /* SkyGraphWatchApp Watch App */;
+			targetProxy = 38885CBF2E01C9CD00942F1E /* PBXContainerItemProxy */;
+		};
+		38885CCA2E01C9CD00942F1E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 38885CB12E01C9CA00942F1E /* SkyGraphWatchApp Watch App */;
+			targetProxy = 38885CC92E01C9CD00942F1E /* PBXContainerItemProxy */;
+		};
+		38885CD12E01C9CE00942F1E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 38885CB12E01C9CA00942F1E /* SkyGraphWatchApp Watch App */;
+			targetProxy = 38885CD02E01C9CE00942F1E /* PBXContainerItemProxy */;
+		};
+		38885D0B2E01CDF300942F1E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 38885CFE2E01CDF000942F1E /* SkyGraphComplicationExtension */;
+			targetProxy = 38885D0A2E01CDF300942F1E /* PBXContainerItemProxy */;
+		};
+		38885D192E01D32000942F1E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 38885CFE2E01CDF000942F1E /* SkyGraphComplicationExtension */;
+			targetProxy = 38885D182E01D32000942F1E /* PBXContainerItemProxy */;
+		};
 		38978B252DEFD4AE00DC1C2A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 38978B132DEFD4AB00DC1C2A /* SkyGraph */;
@@ -286,6 +622,200 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		38885CD42E01C9CE00942F1E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = X3L4WVL245;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.VexlsGG.SkyGraph;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.VexlsGG.SkyGraph.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 11.5;
+			};
+			name = Debug;
+		};
+		38885CD52E01C9CE00942F1E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = X3L4WVL245;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.VexlsGG.SkyGraph;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.VexlsGG.SkyGraph.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 11.5;
+			};
+			name = Release;
+		};
+		38885CD82E01C9CE00942F1E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = X3L4WVL245;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.VexlsGG.SkyGraphWatchApp-Watch-AppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SkyGraphWatchApp Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SkyGraphWatchApp Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 11.5;
+			};
+			name = Debug;
+		};
+		38885CD92E01C9CE00942F1E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = X3L4WVL245;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.VexlsGG.SkyGraphWatchApp-Watch-AppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SkyGraphWatchApp Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SkyGraphWatchApp Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 11.5;
+			};
+			name = Release;
+		};
+		38885CDB2E01C9CE00942F1E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = X3L4WVL245;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.VexlsGG.SkyGraphWatchApp-Watch-AppUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_TARGET_NAME = "SkyGraphWatchApp Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 11.5;
+			};
+			name = Debug;
+		};
+		38885CDC2E01C9CE00942F1E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = X3L4WVL245;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.VexlsGG.SkyGraphWatchApp-Watch-AppUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_TARGET_NAME = "SkyGraphWatchApp Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 11.5;
+			};
+			name = Release;
+		};
+		38885D0F2E01CDF300942F1E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = X3L4WVL245;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SkyGraphComplication/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SkyGraphComplication;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.VexlsGG.SkyGraph.watchkitapp.SkyGraphComplication;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 11.5;
+			};
+			name = Debug;
+		};
+		38885D102E01CDF300942F1E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = X3L4WVL245;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SkyGraphComplication/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SkyGraphComplication;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.VexlsGG.SkyGraph.watchkitapp.SkyGraphComplication;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 11.5;
+			};
+			name = Release;
+		};
 		38978B352DEFD4AE00DC1C2A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -417,6 +947,7 @@
 				DEVELOPMENT_TEAM = X3L4WVL245;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				"INFOPLIST_FILE[sdk=*]" = Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -445,6 +976,7 @@
 				DEVELOPMENT_TEAM = X3L4WVL245;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				"INFOPLIST_FILE[sdk=*]" = Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -538,6 +1070,42 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		38885CD32E01C9CE00942F1E /* Build configuration list for PBXNativeTarget "SkyGraphWatchApp Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				38885CD42E01C9CE00942F1E /* Debug */,
+				38885CD52E01C9CE00942F1E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		38885CD72E01C9CE00942F1E /* Build configuration list for PBXNativeTarget "SkyGraphWatchApp Watch AppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				38885CD82E01C9CE00942F1E /* Debug */,
+				38885CD92E01C9CE00942F1E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		38885CDA2E01C9CE00942F1E /* Build configuration list for PBXNativeTarget "SkyGraphWatchApp Watch AppUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				38885CDB2E01C9CE00942F1E /* Debug */,
+				38885CDC2E01C9CE00942F1E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		38885D0E2E01CDF300942F1E /* Build configuration list for PBXNativeTarget "SkyGraphComplicationExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				38885D0F2E01CDF300942F1E /* Debug */,
+				38885D102E01CDF300942F1E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		38978B0F2DEFD4AB00DC1C2A /* Build configuration list for PBXProject "SkyGraph" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

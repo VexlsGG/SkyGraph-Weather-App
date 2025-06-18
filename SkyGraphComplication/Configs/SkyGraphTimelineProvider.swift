@@ -10,30 +10,23 @@ struct SkyGraphIntentEntry: TimelineEntry {
     let rainValues: [Double]
 }
 
-struct SkyGraphIntentTimelineProvider: IntentTimelineProvider {
-    func placeholder(in context: Context) -> SkyGraphIntentEntry {
-        SkyGraphIntentEntry(
+struct SkyGraphTimelineProvider: TimelineProvider {
+    func placeholder(in context: Context) -> SkyGraphEntry {
+        SkyGraphEntry(date: Date(), temp: 84, aqi: 55, icon: "cloud.sun.fill", rainValues: Array(repeating: 0.4, count: 12))
+    }
+
+    func getSnapshot(in context: Context, completion: @escaping (SkyGraphEntry) -> ()) {
+        let entry = placeholder(in: context)
+        completion(entry)
+    }
+
+    func getTimeline(in context: Context, completion: @escaping (Timeline<SkyGraphEntry>) -> ()) {
+        let entry = SkyGraphEntry(
             date: Date(),
-            config: CircularStyleConfigurationIntent(style: .tempRing),
             temp: 84,
             aqi: 55,
             icon: "cloud.sun.fill",
-            rainValues: Array(repeating: 0.4, count: 6)
-        )
-    }
-
-    func getSnapshot(for configuration: CircularStyleConfigurationIntent, in context: Context, completion: @escaping (SkyGraphIntentEntry) -> ()) {
-        completion(placeholder(in: context))
-    }
-
-    func getTimeline(for configuration: CircularStyleConfigurationIntent, in context: Context, completion: @escaping (Timeline<SkyGraphIntentEntry>) -> ()) {
-        let entry = SkyGraphIntentEntry(
-            date: Date(),
-            config: configuration,
-            temp: 84,
-            aqi: 55,
-            icon: "cloud.sun.fill",
-            rainValues: Array(repeating: 0.3, count: 6)
+            rainValues: (0..<12).map { _ in Double.random(in: 0...1) }
         )
         let timeline = Timeline(entries: [entry], policy: .after(Date().addingTimeInterval(1800)))
         completion(timeline)

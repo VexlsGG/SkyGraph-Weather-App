@@ -5,9 +5,17 @@ class CalendarManager {
     private let eventStore = EKEventStore()
 
     func requestAccess(completion: @escaping (Bool) -> Void) {
-        eventStore.requestAccess(to: .event) { granted, _ in
-            DispatchQueue.main.async {
-                completion(granted)
+        if #available(iOS 17.0, *) {
+            eventStore.requestFullAccessToEvents { granted, error in
+                DispatchQueue.main.async {
+                    completion(granted)
+                }
+            }
+        } else {
+            eventStore.requestAccess(to: .event) { granted, _ in
+                DispatchQueue.main.async {
+                    completion(granted)
+                }
             }
         }
     }

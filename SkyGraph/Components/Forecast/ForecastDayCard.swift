@@ -8,7 +8,9 @@ struct ForecastDayModel: Identifiable, Equatable {
     let low: Double
     let summary: String
     let hourly: [Int]
+    let precipChance: Double   
 }
+
 
 struct ForecastDayCard: View {
     var day: ForecastDayModel
@@ -81,7 +83,6 @@ struct ForecastDetailView: View {
                 HourlyGraph(temps: day.hourly)
                     .frame(height: 80)
                     .padding(.horizontal)
-                // Additional stats - replace with real data
                 HStack {
                     StatMiniCard(icon: "drop.fill", value: "10%", label: "Rain", color: Color("Graph Line 1"))
                     StatMiniCard(icon: "wind", value: "8 mph", label: "Wind", color: Color("Graph Line 1"))

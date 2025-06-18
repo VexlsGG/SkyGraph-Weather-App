@@ -1,10 +1,3 @@
-//
-//  SkyGraphWatchApp_Watch_AppTests.swift
-//  SkyGraphWatchApp Watch AppTests
-//
-//  Created by Lisa Oliver on 6/17/25.
-//
-
 import Testing
 @testable import SkyGraphWatchApp_Watch_App
 

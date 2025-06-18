@@ -1,10 +1,3 @@
-//
-//  SkyGraphWatchAppApp.swift
-//  SkyGraphWatchApp Watch App
-//
-//  Created by Lisa Oliver on 6/17/25.
-//
-
 import SwiftUI
 
 @main

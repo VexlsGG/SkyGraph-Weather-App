@@ -5,7 +5,6 @@ struct ProGlassCardView: View {
     @State private var animateGlow = false
     @State private var tipIndex = 0
 
-    // Example rotating tips
     let tips: [(icon: String, text: String)] = [
         ("cloud.sun.rain.fill", "Need an instant forecast?"),
         ("wind", "How windy is it today?"),
@@ -14,79 +13,84 @@ struct ProGlassCardView: View {
     ]
 
     var body: some View {
-        ZStack(alignment: .bottomTrailing) {
-            // Glass Card + Glow
-            ZStack {
-                GlassBackground(cornerRadius: 28, opacity: 0.95)
-                    .overlay(
-                        // Animated Glow Layer (can replace with Lottie if desired)
-                        RoundedRectangle(cornerRadius: 28)
-                            .stroke(
-                                LinearGradient(
-                                    colors: [
-                                        Color("Graph Line 1").opacity(0.5 + (animateGlow ? 0.4 : 0)),
-                                        Color("Graph Line 2").opacity(0.5 + (animateGlow ? 0.4 : 0))
-                                    ],
-                                    startPoint: .topLeading, endPoint: .bottomTrailing
-                                ),
-                                lineWidth: 6 + (animateGlow ? 2 : 0)
-                            )
-                            .blur(radius: 12 + (animateGlow ? 10 : 0))
-                            .opacity(animateGlow ? 1 : 0.3)
-                            .scaleEffect(isPressed ? 0.97 : 1.0)
-                            .animation(.easeInOut(duration: 1.2).repeatForever(autoreverses: true), value: animateGlow)
-                    )
+        ZStack {
+            GlassBackground(cornerRadius: 22, opacity: 0.95)
+                .shadow(color: Color("Graph Line 1").opacity(0.13), radius: 18, y: 10)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 22)
+                        .stroke(
+                            LinearGradient(colors: [
+                                Color("Graph Line 1").opacity(0.18 + (animateGlow ? 0.13 : 0)),
+                                Color("Graph Line 2").opacity(0.15 + (animateGlow ? 0.15 : 0))
+                            ], startPoint: .topLeading, endPoint: .bottomTrailing),
+                            lineWidth: 3 + (animateGlow ? 1 : 0)
+                        )
+                        .blur(radius: 6 + (animateGlow ? 4 : 0))
+                        .opacity(animateGlow ? 1 : 0.5)
+                        .animation(.easeInOut(duration: 1.2).repeatForever(autoreverses: true), value: animateGlow)
+                )
+                .onAppear { animateGlow = true }
 
-                // Card content
-                VStack(spacing: 18) {
-                    // 1. Animated icon at the top (SF Symbol with shimmer or pulse, or your logo as Image)
+            VStack(spacing: 10) {
+                HStack(alignment: .center, spacing: 13) {
                     AnimatedIconView(icon: tips[tipIndex].icon)
-                        .padding(.top, 8)
-                    
-                    // 2. Tip text (rotates every 3 seconds)
+                        .frame(width: 36, height: 36)
                     Text(tips[tipIndex].text)
                         .font(.title3.weight(.medium))
                         .foregroundColor(Color("Graph Line 2"))
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal, 12)
+                        .multilineTextAlignment(.leading)
                         .transition(.opacity.combined(with: .slide))
                 }
-                .padding(.vertical, 28)
-                .padding(.horizontal, 18)
-            }
-            .frame(maxWidth: 340, minHeight: 140)
-            .scaleEffect(isPressed ? 0.96 : 1.0)
-            .shadow(color: Color("Graph Line 1").opacity(isPressed ? 0.30 : 0.12), radius: isPressed ? 28 : 16, y: 10)
-            .onTapGesture {
-                // On tap: bounce and cycle tip
-                withAnimation(.spring(response: 0.42, dampingFraction: 0.65)) {
-                    isPressed = true
-                    tipIndex = (tipIndex + 1) % tips.count
-                }
-                UIImpactFeedbackGenerator(style: .light).impactOccurred()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.18) {
-                    isPressed = false
-                }
-            }
-            .onAppear {
-                animateGlow = true
-                // Also cycle tip every 3.2 seconds
-                Timer.scheduledTimer(withTimeInterval: 3.2, repeats: true) { _ in
-                    withAnimation(.spring(response: 0.43, dampingFraction: 0.82)) {
-                        tipIndex = (tipIndex + 1) % tips.count
-                    }
-                }
-            }
+                .padding(.vertical, 16)
 
-            // 3. Mini AI Avatar (bottom right), with pulse
-            VStack {
-                AIAvatarPulsing()
+                AnimatedDots()
+
+                Text("Did you know? The windiest place on Earth is Antarctica.")
+                    .font(.caption)
+                    .foregroundColor(Color("Text Primary").opacity(0.72))
+                    .padding(.top, 2)
+
+                HStack {
+                    Spacer()
+                    AIAvatarPulsing()
+                        .padding(.top, 6)
+                    Spacer()
+                }
             }
-            .padding(10)
+            .padding(.vertical, 18)
+            .padding(.horizontal, 18)
+        }
+        .frame(maxWidth: 320, minHeight: 142)
+        .scaleEffect(isPressed ? 0.97 : 1.0)
+        .onTapGesture {
+            withAnimation(.spring(response: 0.42, dampingFraction: 0.65)) {
+                isPressed = true
+                tipIndex = (tipIndex + 1) % tips.count
+            }
+            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.17) {
+                isPressed = false
+            }
         }
     }
 }
 
+struct AnimatedDots: View {
+    @State private var phase = false
+    var body: some View {
+        HStack(spacing: 5) {
+            ForEach(0..<3) { i in
+                Circle()
+                    .fill(phase ? Color("Graph Line 2") : Color("Graph Line 1"))
+                    .frame(width: 6, height: 6)
+                    .opacity(0.7)
+                    .scaleEffect(phase ? 1.1 : 0.92)
+                    .animation(.easeInOut(duration: 0.7).repeatForever().delay(Double(i) * 0.2), value: phase)
+            }
+        }
+        .onAppear { phase = true }
+    }
+}
 struct AnimatedIconView: View {
     let icon: String
     @State private var animate = false
@@ -117,11 +121,6 @@ struct AnimatedIconView: View {
         }
     }
 }
-
-// Replace with your LottieView if you want:
-// LottieView(name: "glow-effect", loopMode: .loop)
-//     .frame(width: 52, height: 52)
-
 struct AIAvatarPulsing: View {
     @State private var pulse = false
 
